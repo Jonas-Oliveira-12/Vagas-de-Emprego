@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Vagas de Emprego</title>
+</head>
+<body>
+    <h1>Sistema de Vagas de Emprego</h1>
+    <script>
+        const vagas = [];
+
+        //mostrar o menu
+        function mostrarMenu() {
+            let menu = "===== Sistema de Vagas de Emprego =====\n";
+            menu += "1. Listar vagas disponíveis\n";
+            menu += "2. Criar uma nova vaga\n";
+            menu += "3. Visualizar uma vaga\n";
+            menu += "4. Inscrever um candidato em uma vaga\n";
+            menu += "5. Excluir uma vaga\n";
+            menu += "6. Sair\n";
+
+            return parseInt(prompt(menu));
+        }
+
+        //Função para listar as vagas disponíveis
+        function listarVagas() {
+            let lista = "===== Vagas Disponíveis =====\n";
+            vagas.forEach((vaga, index) => {
+                lista += `${index}. ${vaga.nome} - Candidatos Inscritos: ${vaga.candidatos.length}\n`;
+            });
+            alert(lista);
+        }
+
+        //criar uma nova vaga
+        function criarVaga() {
+            const nome = prompt("===== Criar Nova Vaga =====\nDigite o nome da vaga:");
+            const descricao = prompt("Digite a descrição da vaga:");
+            const dataLimite = prompt("Digite a data limite (dd/mm/aaaa):");
+
+            let confirmacao = `Confirme as informações:\n`;
+            confirmacao += `Nome: ${nome}\n`;
+            confirmacao += `Descrição: ${descricao}\n`;
+            confirmacao += `Data Limite: ${dataLimite}\n`;
+
+            confirmacao = prompt(`${confirmacao}\nConfirmar criação da vaga? (S/N)`).toUpperCase();
+            if (confirmacao === "S") {
+                vagas.push({
+                    nome,
+                    descricao,
+                    dataLimite,
+                    candidatos: [],
+                });
+                alert("Vaga criada com sucesso!");
+            } else {
+                alert("Criação da vaga cancelada.");
+            }
+        }
+
+        //visualizar uma vaga
+        function visualizarVaga() {
+            const index = parseInt(prompt("===== Visualizar Vaga =====\nDigite o índice da vaga que deseja visualizar:"));
+
+            const vaga = vagas[index];
+            if (vaga) {
+                let info = `\nÍndice: ${index}\n`;
+                info += `Nome: ${vaga.nome}\n`;
+                info += `Descrição: ${vaga.descricao}\n`;
+                info += `Data Limite: ${vaga.dataLimite}\n`;
+                info += `Candidatos Inscritos: ${vaga.candidatos.length}\n`;
+                if (vaga.candidatos.length > 0) {
+                    info += "Candidatos:\n";
+                    vaga.candidatos.forEach((candidato, index) => {
+                        info += `${index + 1}. ${candidato}\n`;
+                    });
+                }
+                alert(info);
+            } else {
+                alert("Vaga não encontrada.");
+            }
+        }
+
+        //inscrever um candidato em uma vaga
+        function inscreverCandidato() {
+            const nomeCandidato = prompt("===== Inscrever Candidato em uma Vaga =====\nDigite o nome do candidato:");
+            const indexVaga = parseInt(prompt("Digite o índice da vaga:"));
+
+            const vaga = vagas[indexVaga];
+            if (vaga) {
+                let confirmacao = `Candidato: ${nomeCandidato}\n`;
+                confirmacao += `Vaga: ${vaga.nome}\n`;
+                confirmacao += `Descrição: ${vaga.descricao}\n`;
+                confirmacao += `Data Limite: ${vaga.dataLimite}\n`;
+
+                confirmacao = prompt(`${confirmacao}\nConfirmar inscrição do candidato? (S/N)`).toUpperCase();
+                if (confirmacao === "S") {
+                    vaga.candidatos.push(nomeCandidato);
+                    alert("Candidato inscrito com sucesso!");
+                } else {
+                    alert("Inscrição do candidato cancelada.");
+                }
+            } else {
+                alert("Vaga não encontrada.");
+            }
+        }
+
+        //excluir uma vaga
+        function excluirVaga() {
+            const index = parseInt(prompt("===== Excluir Vaga =====\nDigite o índice da vaga que deseja excluir:"));
+
+            const vaga = vagas[index];
+            if (vaga) {
+                let info = `\nÍndice: ${index}\n`;
+                info += `Nome: ${vaga.nome}\n`;
+                info += `Descrição: ${vaga.descricao}\n`;
+                info += `Data Limite: ${vaga.dataLimite}\n`;
+                info += `Candidatos Inscritos: ${vaga.candidatos.length}\n`;
+
+                let confirmacao = prompt(`${info}\nConfirmar exclusão da vaga? (S/N)`).toUpperCase();
+                if (confirmacao === "S") {
+                    vagas.splice(index, 1);
+                    alert("Vaga excluída com sucesso!");
+                } else {
+                    alert("Exclusão da vaga cancelada.");
+                }
+            } else {
+                alert("Vaga não encontrada.");
+            }
+        }
+
+        //main
+        function main() {
+            let opcao = 0;
+            while (opcao !== 6) {
+                opcao = mostrarMenu();
+
+                switch (opcao) {
+                    case 1:
+                        listarVagas();
+                        break;
+                    case 2:
+                        criarVaga();
+                        break;
+                    case 3:
+                        visualizarVaga();
+                        break;
+                    case 4:
+                        inscreverCandidato();
+                        break;
+                    case 5:
+                        excluirVaga();
+                        break;
+                    case 6:
+                        alert("Saindo do sistema. Até mais!");
+                        break;
+                    default:
+                        alert("Opção inválida. Tente novamente.");
+                        break;
+                }
+            }
+        }
+
+        //rodar
+        main();
+    </script>
+</body>
+</html>
